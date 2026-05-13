@@ -1,39 +1,39 @@
-# Casdoor Go SDK
+# Hanzo IAM Go SDK
 
 <p align="center">
   <a href="#badge">
     <img alt="semantic-release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg">
   </a>
-  <a href="https://github.com/casdoor/casdoor-go-sdk/actions/workflows/ci.yml">
-    <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/actions/workflow/status/casdoor/casdoor-go-sdk/ci.yml?branch=master">
+  <a href="https://github.com/hanzo-iam/hanzo-iam-go-sdk/actions/workflows/ci.yml">
+    <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/actions/workflow/status/hanzo-iam/hanzo-iam-go-sdk/ci.yml?branch=master">
   </a>
-  <a href="https://github.com/casdoor/casdoor-go-sdk/releases/latest">
-    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/casdoor/casdoor-go-sdk.svg">
+  <a href="https://github.com/hanzo-iam/hanzo-iam-go-sdk/releases/latest">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/hanzo-iam/hanzo-iam-go-sdk.svg">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://goreportcard.com/report/github.com/casdoor/casdoor-go-sdk">
-    <img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/casdoor/casdoor-go-sdk?style=flat-square">
+  <a href="https://goreportcard.com/report/github.com/hanzo-iam/hanzo-iam-go-sdk">
+    <img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/hanzo-iam/hanzo-iam-go-sdk?style=flat-square">
   </a>
-  <a href="https://github.com/casdoor/casdoor-go-sdk/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/casdoor/casdoor-go-sdk?style=flat-square" alt="license">
+  <a href="https://github.com/hanzo-iam/hanzo-iam-go-sdk/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/hanzo-iam/hanzo-iam-go-sdk?style=flat-square" alt="license">
   </a>
-  <a href="https://github.com/casdoor/casdoor-go-sdk/issues">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/casdoor/casdoor-go-sdk?style=flat-square">
+  <a href="https://github.com/hanzo-iam/hanzo-iam-go-sdk/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/hanzo-iam/hanzo-iam-go-sdk?style=flat-square">
   </a>
   <a href="#">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/casdoor/casdoor-go-sdk?style=flat-square">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/hanzo-iam/hanzo-iam-go-sdk?style=flat-square">
   </a>
-  <a href="https://github.com/casdoor/casdoor-go-sdk/network">
-    <img alt="GitHub forks" src="https://img.shields.io/github/forks/casdoor/casdoor-go-sdk?style=flat-square">
+  <a href="https://github.com/hanzo-iam/hanzo-iam-go-sdk/network">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/hanzo-iam/hanzo-iam-go-sdk?style=flat-square">
   </a>
   <a href="https://discord.gg/5rPsrAzK7S">
-    <img alt="Casdoor" src="https://img.shields.io/discord/1022748306096537660?style=flat-square&logo=discord&label=discord&color=5865F2">
+    <img alt="Hanzo IAM" src="https://img.shields.io/discord/1022748306096537660?style=flat-square&logo=discord&label=discord&color=5865F2">
   </a>
 </p>
 
-Casdoor Go SDK is the official Go client library for [Casdoor](https://casdoor.org/), which allows you to easily integrate Casdoor authentication and authorization into your Go applications. This SDK provides a comprehensive set of APIs to interact with Casdoor server, enabling you to manage users, organizations, applications, roles, permissions, and much more.
+Hanzo IAM Go SDK is the official Go client library for [Hanzo IAM](https://hanzo-iam.org/), which allows you to easily integrate Hanzo IAM authentication and authorization into your Go applications. This SDK provides a comprehensive set of APIs to interact with Hanzo IAM server, enabling you to manage users, organizations, applications, roles, permissions, and much more.
 
 ## 📋 Table of Contents
 
@@ -65,32 +65,32 @@ Casdoor Go SDK is the official Go client library for [Casdoor](https://casdoor.o
 
 ## 📦 Installation
 
-To install the Casdoor Go SDK, you need Go 1.23 or higher. Run the following command in your Go project:
+To install the Hanzo IAM Go SDK, you need Go 1.23 or higher. Run the following command in your Go project:
 
 ```bash
-go get github.com/casdoor/casdoor-go-sdk@latest
+go get github.com/hanzo-iam/hanzo-iam-go-sdk@latest
 ```
 
 Then import the SDK in your Go files:
 
 ```go
-import "github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+import "github.com/hanzo-iam/hanzo-iam-go-sdk/casdoorsdk"
 ```
 
 ## 🚀 Quick Start
 
-Here's a minimal example to get you started with Casdoor Go SDK:
+Here's a minimal example to get you started with Hanzo IAM Go SDK:
 
 ```go
 package main
 
 import (
     "fmt"
-    "github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+    "github.com/hanzo-iam/hanzo-iam-go-sdk/casdoorsdk"
 )
 
 func main() {
-    // Initialize the SDK with your Casdoor instance configuration
+    // Initialize the SDK with your Hanzo IAM instance configuration
     casdoorsdk.InitConfig(
         "http://localhost:8000",           // endpoint
         "CLIENT_ID",                        // clientId
@@ -142,20 +142,20 @@ users2, err := client2.GetUsers()
 
 | Parameter        | Required | Description                                                  |
 |------------------|----------|--------------------------------------------------------------|
-| endpoint         | Yes      | Casdoor server URL (e.g., `http://localhost:8000`)          |
-| clientId         | Yes      | Application client ID from Casdoor                           |
-| clientSecret     | Yes      | Application client secret from Casdoor                       |
+| endpoint         | Yes      | Hanzo IAM server URL (e.g., `http://localhost:8000`)          |
+| clientId         | Yes      | Application client ID from Hanzo IAM                           |
+| clientSecret     | Yes      | Application client secret from Hanzo IAM                       |
 | certificate      | Yes      | x509 certificate content of your application (PEM format)    |
-| organizationName | Yes      | Organization name in Casdoor                                 |
-| applicationName  | Yes      | Application name in Casdoor                                  |
+| organizationName | Yes      | Organization name in Hanzo IAM                                 |
+| applicationName  | Yes      | Application name in Hanzo IAM                                  |
 
-### Getting Configuration Parameters from Casdoor
+### Getting Configuration Parameters from Hanzo IAM
 
-1. **endpoint**: Your Casdoor server URL
-2. **clientId** and **clientSecret**: Found in your application settings in Casdoor admin panel
+1. **endpoint**: Your Hanzo IAM server URL
+2. **clientId** and **clientSecret**: Found in your application settings in Hanzo IAM admin panel
 3. **certificate**: Copy the certificate content from your application's "Cert" field (must be in x509 PEM format)
 4. **organizationName**: The organization that owns your application
-5. **applicationName**: Your application's name in Casdoor
+5. **applicationName**: Your application's name in Hanzo IAM
 
 ### Customizing HTTP Client
 
@@ -167,7 +167,7 @@ Use the `SetHttpClient()` function to provide a custom HTTP client:
 import (
     "net/http"
     "time"
-    "github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+    "github.com/hanzo-iam/hanzo-iam-go-sdk/casdoorsdk"
 )
 
 // Create a custom HTTP client
@@ -228,17 +228,17 @@ client.CustomHeaders = make(map[string]string)
 
 The SDK provides complete OAuth 2.0 authentication flow support.
 
-#### Step 1: Redirect User to Casdoor Login
+#### Step 1: Redirect User to Hanzo IAM Login
 
-Direct users to your Casdoor login page:
+Direct users to your Hanzo IAM login page:
 
 ```
-https://your-casdoor-instance.com/login/oauth/authorize?client_id=CLIENT_ID&response_type=code&redirect_uri=REDIRECT_URI&scope=read&state=STATE
+https://your-hanzo-iam-instance.com/login/oauth/authorize?client_id=CLIENT_ID&response_type=code&redirect_uri=REDIRECT_URI&scope=read&state=STATE
 ```
 
 #### Step 2: Handle OAuth Callback
 
-After successful authentication, Casdoor redirects back to your application with `code` and `state` parameters:
+After successful authentication, Hanzo IAM redirects back to your application with `code` and `state` parameters:
 
 ```go
 // Extract code and state from the callback URL
@@ -305,7 +305,7 @@ fmt.Printf("Organization: %s\n", claims.Owner)
 
 ## 📦 Resource Management
 
-The SDK provides comprehensive APIs to manage various resources in Casdoor.
+The SDK provides comprehensive APIs to manage various resources in Hanzo IAM.
 
 ### User Management
 
@@ -569,7 +569,7 @@ success, err := casdoorsdk.DeleteWebhook(webhook)
 
 ### Available Resources
 
-The SDK provides comprehensive support for managing the following Casdoor resources:
+The SDK provides comprehensive support for managing the following Hanzo IAM resources:
 
 | Resource      | Description                                   | Key Operations                    |
 |---------------|-----------------------------------------------|-----------------------------------|
@@ -620,7 +620,7 @@ import (
     "encoding/json"
     "fmt"
     "net/http"
-    "github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+    "github.com/hanzo-iam/hanzo-iam-go-sdk/casdoorsdk"
 )
 
 func main() {
@@ -672,7 +672,7 @@ package main
 
 import (
     "fmt"
-    "github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+    "github.com/hanzo-iam/hanzo-iam-go-sdk/casdoorsdk"
 )
 
 func main() {
@@ -715,7 +715,7 @@ package main
 
 import (
     "fmt"
-    "github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+    "github.com/hanzo-iam/hanzo-iam-go-sdk/casdoorsdk"
 )
 
 func main() {
@@ -739,10 +739,10 @@ func main() {
 
 For more detailed information, please refer to:
 
-- [Casdoor Official Documentation](https://casdoor.org/docs/overview)
-- [Casdoor GitHub Repository](https://github.com/casdoor/casdoor)
-- [API Documentation](https://door.casdoor.com/swagger)
-- [GoDoc Reference](https://pkg.go.dev/github.com/casdoor/casdoor-go-sdk/casdoorsdk)
+- [Hanzo IAM Official Documentation](https://hanzo-iam.org/docs/overview)
+- [Hanzo IAM GitHub Repository](https://github.com/hanzo-iam/hanzo-iam)
+- [API Documentation](https://door.hanzo-iam.com/swagger)
+- [GoDoc Reference](https://pkg.go.dev/github.com/hanzo-iam/hanzo-iam-go-sdk/casdoorsdk)
 
 ## 📄 License
 
@@ -752,4 +752,4 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 If you find this project useful, please consider giving it a star! ⭐
 
-[![Star History Chart](https://api.star-history.com/svg?repos=casdoor/casdoor-go-sdk&type=Date)](https://star-history.com/#casdoor/casdoor-go-sdk&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=hanzo-iam/hanzo-iam-go-sdk&type=Date)](https://star-history.com/#hanzo-iam/hanzo-iam-go-sdk&Date)
