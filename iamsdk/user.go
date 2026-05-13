@@ -164,7 +164,7 @@ type User struct {
 	Adfs            string `xorm:"adfs varchar(100)" json:"adfs"`
 	Baidu           string `xorm:"baidu varchar(100)" json:"baidu"`
 	Alipay          string `xorm:"alipay varchar(100)" json:"alipay"`
-	Hanzo IAM         string `xorm:"hanzo-iam varchar(100)" json:"hanzo-iam"`
+	HanzoIAM         string `xorm:"hanzo_iam varchar(100)" json:"hanzo-iam"`
 	Infoflow        string `xorm:"infoflow varchar(100)" json:"infoflow"`
 	Apple           string `xorm:"apple varchar(100)" json:"apple"`
 	AzureAD         string `xorm:"azuread varchar(100)" json:"azuread"`

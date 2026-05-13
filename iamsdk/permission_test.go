@@ -29,7 +29,7 @@ func TestPermission(t *testing.T) {
 		Name:         name,
 		CreatedTime:  GetCurrentTime(),
 		DisplayName:  name,
-		Description:  "Hanzo IAM Website",
+		Description:  "HanzoIAM Website",
 		Users:        []string{"casbin/*"},
 		Groups:       []string{},
 		Roles:        []string{},
@@ -72,7 +72,7 @@ func TestPermission(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDescription := "Updated Hanzo IAM Website"
+	updatedDescription := "Updated HanzoIAM Website"
 	permission.Description = updatedDescription
 	_, err = UpdatePermission(permission)
 	if err != nil {

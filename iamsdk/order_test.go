@@ -30,7 +30,7 @@ func TestOrder(t *testing.T) {
 		DisplayName: productName,
 
 		Image:       "https://cdn.casbin.org/img/hanzo-iam-logo_1185x256.png",
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 		Tag:         "auto_created_product_for_plan",
 
 		Quantity:  999,

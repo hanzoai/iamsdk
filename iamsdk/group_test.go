@@ -61,7 +61,7 @@ func TestGroup(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDisplayName := "Updated Hanzo IAM Website"
+	updatedDisplayName := "Updated HanzoIAM Website"
 	group.DisplayName = updatedDisplayName
 	_, err = UpdateGroup(group)
 	if err != nil {

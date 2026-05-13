@@ -29,7 +29,7 @@ func TestPlan(t *testing.T) {
 		Name:        name,
 		CreatedTime: GetCurrentTime(),
 		DisplayName: name,
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 		Currency:    "USD",
 	}
 	_, err := AddPlan(plan)
@@ -63,7 +63,7 @@ func TestPlan(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDescription := "Updated Hanzo IAM Website"
+	updatedDescription := "Updated HanzoIAM Website"
 	plan.Description = updatedDescription
 	_, err = UpdatePlan(plan)
 	if err != nil {

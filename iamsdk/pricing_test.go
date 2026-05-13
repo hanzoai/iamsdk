@@ -30,7 +30,7 @@ func TestPricing(t *testing.T) {
 		CreatedTime: GetCurrentTime(),
 		DisplayName: name,
 		Application: "app-admin",
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 	}
 	_, err := AddPricing(pricing)
 	if err != nil {
@@ -63,7 +63,7 @@ func TestPricing(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDescription := "Updated Hanzo IAM Website"
+	updatedDescription := "Updated HanzoIAM Website"
 	pricing.Description = updatedDescription
 	_, err = UpdatePricing(pricing)
 	if err != nil {

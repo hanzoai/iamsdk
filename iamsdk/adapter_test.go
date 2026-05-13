@@ -62,7 +62,7 @@ func TestAdapter(t *testing.T) {
 	}
 
 	// Update the object
-	updatedUser := "Updated Hanzo IAM Website"
+	updatedUser := "Updated HanzoIAM Website"
 	adapter.User = updatedUser
 	_, err = UpdateAdapter(adapter)
 	if err != nil {

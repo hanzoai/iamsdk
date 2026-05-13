@@ -100,7 +100,7 @@ func WithHTTPClient(httpClient *http.Client) OAuthOption {
 	}
 }
 
-// GetOAuthToken gets the pivotal and necessary secret to interact with the Hanzo IAM server
+// GetOAuthToken gets the pivotal and necessary secret to interact with the HanzoIAM server
 func (c *Client) GetOAuthToken(code string, state string, opts ...OAuthOption) (*oauth2.Token, error) {
 	options := &oauthOptions{}
 	for _, opt := range opts {
