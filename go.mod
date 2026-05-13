@@ -1,4 +1,4 @@
-module github.com/hanzoai/iam-go-sdk/v2
+module github.com/hanzoai/iamsdk/v2
 
 go 1.23
 
