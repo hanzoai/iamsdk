@@ -66,7 +66,7 @@ func TestCert(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDisplayName := "Updated Hanzo IAM Website"
+	updatedDisplayName := "Updated HanzoIAM Website"
 	cert.DisplayName = updatedDisplayName
 	_, err = UpdateCert(cert)
 	if err != nil {

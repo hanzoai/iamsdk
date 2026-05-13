@@ -29,7 +29,7 @@ func TestSubscription(t *testing.T) {
 		Name:        name,
 		CreatedTime: GetCurrentTime(),
 		DisplayName: name,
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 	}
 	_, err := AddSubscription(subscription)
 	if err != nil {
@@ -62,7 +62,7 @@ func TestSubscription(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDescription := "Updated Hanzo IAM Website"
+	updatedDescription := "Updated HanzoIAM Website"
 	subscription.Description = updatedDescription
 	_, err = UpdateSubscription(subscription)
 	if err != nil {

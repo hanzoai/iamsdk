@@ -29,7 +29,7 @@ func TestPolicy(t *testing.T) {
 		DisplayName: name,
 		Model:       "built-in/user-model-built-in",
 		Adapter:     "built-in/user-adapter-built-in",
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 	}
 	_, err := AddEnforcer(enforcer)
 	if err != nil {
@@ -129,7 +129,7 @@ func TestGetFilteredPolicies(t *testing.T) {
 		DisplayName: name,
 		Model:       "built-in/user-model-built-in",
 		Adapter:     "built-in/user-adapter-built-in",
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 	}
 	_, err := AddEnforcer(enforcer)
 	if err != nil {

@@ -29,7 +29,7 @@ func TestRole(t *testing.T) {
 		Name:        name,
 		CreatedTime: GetCurrentTime(),
 		DisplayName: name,
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 	}
 	_, err := AddRole(role)
 	if err != nil {
@@ -62,7 +62,7 @@ func TestRole(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDescription := "Updated Hanzo IAM Website"
+	updatedDescription := "Updated HanzoIAM Website"
 	role.Description = updatedDescription
 	_, err = UpdateRole(role)
 	if err != nil {

@@ -29,7 +29,7 @@ func TestOrderPay(t *testing.T) {
 		DisplayName: name,
 
 		Image:       "https://cdn.casbin.org/img/hanzo-iam-logo_1185x256.png",
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 		Tag:         "auto_created_product_for_plan",
 
 		Quantity:  999,
@@ -88,7 +88,7 @@ func TestBuyProduct(t *testing.T) {
 		DisplayName: name,
 
 		Image:       "https://cdn.casbin.org/img/hanzo-iam-logo_1185x256.png",
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 		Tag:         "auto_created_product_for_plan",
 
 		Quantity:  999,

@@ -63,7 +63,7 @@ func TestProvider(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDisplayName := "Updated Hanzo IAM Website"
+	updatedDisplayName := "Updated HanzoIAM Website"
 	provider.DisplayName = updatedDisplayName
 	_, err = UpdateProvider(provider)
 	if err != nil {

@@ -70,7 +70,7 @@ func TestOrganization(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDisplayName := "Updated Hanzo IAM Website"
+	updatedDisplayName := "Updated HanzoIAM Website"
 	organization.DisplayName = updatedDisplayName
 	_, err = UpdateOrganization(organization)
 	if err != nil {

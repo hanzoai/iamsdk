@@ -46,7 +46,7 @@ func TestResource(t *testing.T) {
 		Owner:       "casbin",
 		Name:        name,
 		CreatedTime: GetCurrentTime(),
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 		User:        "casbin",
 		FileName:    filename,
 		FileSize:    len(data),

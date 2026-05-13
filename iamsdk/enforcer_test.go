@@ -31,7 +31,7 @@ func TestEnforcer(t *testing.T) {
 		DisplayName: name,
 		Model:       "built-in/user-model-built-in",
 		Adapter:     "built-in/user-adapter-built-in",
-		Description: "Hanzo IAM Website",
+		Description: "HanzoIAM Website",
 	}
 	_, err := AddEnforcer(enforcer)
 	if err != nil {
@@ -64,7 +64,7 @@ func TestEnforcer(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDescription := "Updated Hanzo IAM Website"
+	updatedDescription := "Updated HanzoIAM Website"
 	enforcer.Description = updatedDescription
 	_, err = UpdateEnforcer(enforcer)
 	if err != nil {

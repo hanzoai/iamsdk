@@ -61,7 +61,7 @@ func TestUser(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDisplayName := "Updated Hanzo IAM Website"
+	updatedDisplayName := "Updated HanzoIAM Website"
 	user.DisplayName = updatedDisplayName
 	_, err = UpdateUser(user)
 	if err != nil {

@@ -31,7 +31,7 @@ func TestApplication(t *testing.T) {
 		DisplayName:  name,
 		Logo:         "https://cdn.casbin.org/img/hanzo-iam-logo_1185x256.png",
 		HomepageUrl:  "https://hanzo-iam.org",
-		Description:  "Hanzo IAM Website",
+		Description:  "HanzoIAM Website",
 		Organization: "casbin",
 	}
 	_, err := AddApplication(application)
@@ -65,7 +65,7 @@ func TestApplication(t *testing.T) {
 	}
 
 	// Update the object
-	updatedDescription := "Updated Hanzo IAM Website"
+	updatedDescription := "Updated HanzoIAM Website"
 	application.Description = updatedDescription
 	_, err = UpdateApplication(application)
 	if err != nil {
