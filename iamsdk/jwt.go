@@ -15,6 +15,9 @@
 package iamsdk
 
 import (
+	"crypto/x509"
+	"encoding/pem"
+	"errors"
 	"fmt"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -34,17 +37,33 @@ func (c Claims) IsRefreshToken() bool {
 	return c.RefreshTokenType == "refresh-token"
 }
 
+// publicKeyFromPEM returns the public key from either an X.509 CERTIFICATE
+// PEM block or a PUBLIC KEY / RSA PUBLIC KEY PEM block. IAM serves the
+// application's signing key as the X.509 cert PEM (matches what the IAM
+// database stores in cert.certificate); some self-hosted configurations
+// supply a raw public-key PEM. Accept both so iamsdk consumers don't have
+// to know the difference.
+func publicKeyFromPEM(pemBytes []byte) (interface{}, error) {
+	block, _ := pem.Decode(pemBytes)
+	if block == nil {
+		return nil, errors.New("iamsdk: not valid PEM")
+	}
+	if block.Type == "CERTIFICATE" {
+		cert, err := x509.ParseCertificate(block.Bytes)
+		if err != nil {
+			return nil, fmt.Errorf("iamsdk: parse certificate: %w", err)
+		}
+		return cert.PublicKey, nil
+	}
+	return x509.ParsePKIXPublicKey(block.Bytes)
+}
+
 func (c *Client) ParseJwtToken(token string) (*Claims, error) {
 	t, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		switch token.Method.Alg() {
-		case jwt.SigningMethodES256.Alg():
-			return jwt.ParseECPublicKeyFromPEM([]byte(c.Certificate))
-		case jwt.SigningMethodES512.Alg():
-			return jwt.ParseECPublicKeyFromPEM([]byte(c.Certificate))
-		case jwt.SigningMethodRS256.Alg():
-			return jwt.ParseRSAPublicKeyFromPEM([]byte(c.Certificate))
-		case jwt.SigningMethodRS512.Alg():
-			return jwt.ParseRSAPublicKeyFromPEM([]byte(c.Certificate))
+		case jwt.SigningMethodES256.Alg(), jwt.SigningMethodES512.Alg(),
+			jwt.SigningMethodRS256.Alg(), jwt.SigningMethodRS512.Alg():
+			return publicKeyFromPEM([]byte(c.Certificate))
 		default:
 			return nil, fmt.Errorf("unsupported signing method: %v", token.Header["alg"])
 		}
