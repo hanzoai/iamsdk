@@ -9,7 +9,7 @@ on:
 jobs:
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build-linux-amd64
 
     steps:
       - name: Set up Go
@@ -23,7 +23,7 @@ jobs:
 
   semantic-release:
     needs: [test]
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build-linux-amd64
     steps:
 
       - uses: actions/checkout@v4
