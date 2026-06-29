@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/hero.svg" alt="iamsdk" width="880"></p>
+
 # Hanzo IAM Go SDK
 
 <p align="center">
