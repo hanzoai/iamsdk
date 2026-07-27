@@ -15,7 +15,9 @@
 package iamsdk
 
 import (
-	"io/fs"
+	"go/ast"
+	"go/parser"
+	"go/token"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -34,19 +36,24 @@ func TestGetUrlUsesV1IamPrefix(t *testing.T) {
 	}
 }
 
-// apiPrefix matches an `/api/` PATH segment. It deliberately does NOT match the
-// `api.hanzo.ai` HOSTNAME — the standard bans the path segment, not the api.*
-// subdomain.
-var apiPrefix = regexp.MustCompile(`(^|[^.\w])/api/`)
+// bannedPrefix matches an `/api/` PATH segment. It deliberately does NOT match
+// the `api.hanzo.ai` HOSTNAME — the standard bans the path segment, not the
+// api.* subdomain.
+var bannedPrefix = regexp.MustCompile(`(^|[^.\w])/api/`)
 
-// TestNoApiPrefixInSource is the regression guard: it fails if any Go source in
-// this module reintroduces an `/api/` route segment. The prefix has exactly one
-// spelling — RoutePrefix — and this test is what keeps it that way.
-func TestNoApiPrefixInSource(t *testing.T) {
+// TestNoApiPrefixInRouteLiterals is the regression guard: every action this SDK
+// calls is a verb-noun under RoutePrefix, and no string literal in the module
+// may address IAM any other way.
+//
+// It inspects STRING LITERALS via go/ast, not lines of text: only a literal can
+// BE a route. Prose that names the prefix — a comment explaining what this
+// replaced — is documentation, and the parser tells the two apart exactly.
+func TestNoApiPrefixInRouteLiterals(t *testing.T) {
 	self := "route_prefix_test.go" // names the banned prefix in order to ban it
 
+	fset := token.NewFileSet()
 	var offenders []string
-	err := filepath.WalkDir("..", func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir("..", func(path string, d os.DirEntry, err error) error {
 		switch {
 		case err != nil:
 			return err
@@ -55,22 +62,28 @@ func TestNoApiPrefixInSource(t *testing.T) {
 		case d.IsDir(), filepath.Ext(path) != ".go", d.Name() == self:
 			return nil
 		}
-		src, err := os.ReadFile(path)
-		if err != nil {
-			return err
+		// ParseFile without ParseComments: comments are prose, not routes.
+		f, perr := parser.ParseFile(fset, path, nil, 0)
+		if perr != nil {
+			return perr
 		}
-		for i, line := range strings.Split(string(src), "\n") {
-			if apiPrefix.MatchString(line) {
-				offenders = append(offenders, path+":"+strconv.Itoa(i+1)+": "+strings.TrimSpace(line))
+		ast.Inspect(f, func(n ast.Node) bool {
+			lit, ok := n.(*ast.BasicLit)
+			if !ok || lit.Kind != token.STRING {
+				return true
 			}
-		}
+			if v, uerr := strconv.Unquote(lit.Value); uerr == nil && bannedPrefix.MatchString(v) {
+				offenders = append(offenders, fset.Position(lit.Pos()).String()+": "+lit.Value)
+			}
+			return true
+		})
 		return nil
 	})
 	if err != nil {
 		t.Fatalf("walk: %v", err)
 	}
 	if len(offenders) > 0 {
-		t.Fatalf("the /api/ prefix is banned (use RoutePrefix = %q); found %d occurrence(s):\n%s",
+		t.Fatalf("the /api/ prefix is banned (use RoutePrefix = %q); found %d banned route literal(s):\n%s",
 			RoutePrefix, len(offenders), strings.Join(offenders, "\n"))
 	}
 }
