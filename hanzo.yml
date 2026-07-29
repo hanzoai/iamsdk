@@ -1,0 +1,38 @@
+# Hanzo CI — the ONE way this repo is gated, read by hanzoai/ci.
+#
+# No `images:` and no `deploy:`: iamsdk is a Go library. A consumer links it
+# from the module proxy at a tag, so what CI owes is a gate, not an artifact.
+#
+# This replaces a bespoke workflow that never ran. It triggered on `master`
+# while the default branch is `main`, so its last execution was 2026-06-29 —
+# and it FAILED. Every commit since, including v2.2.2 (the fix that stopped
+# this client from silently rewriting a caller's `owner`, a cross-tenant
+# scoping bug), was published with zero test runs. Its release job was also
+# guarded `if: github.repository == 'casdoor/casdoor-go-sdk'`, so it could
+# never fire in this fleet at all.
+
+test:
+  - name: go-vet
+    run: |
+      set -e
+      export GOWORK=off
+      go vet ./...
+  - name: go-unit
+    # The whole tree, not a named list — an allowlist stops covering whatever
+    # is added after it is written.
+    #
+    # scope_test.go is the load-bearing one: it asserts that an explicit
+    # `owner` reaches the wire verbatim and that no route writes to the
+    # caller's query map. IAM's authz.Scope honours an owner the principal may
+    # read and REFUSES one it may not; that decision only happens if the client
+    # actually asks. This client used to answer it locally instead, so a
+    # multi-tenant caller was pinned to whatever org it was constructed with
+    # and could not tell. A red gate here must block the release.
+    #
+    # The 30 integration tests drive a REAL IAM. They skip unless
+    # IAM_TEST_ENDPOINT + credentials are present (see live() in
+    # iamsdk/live_test.go) — one seam, so "is there a server?" is asked once.
+    run: |
+      set -e
+      export GOWORK=off
+      go test -count=1 ./...

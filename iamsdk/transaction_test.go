@@ -3,7 +3,7 @@ package iamsdk
 import "testing"
 
 func TestTransaction(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	// Add a new object
 	transaction := &Transaction{

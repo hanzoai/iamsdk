@@ -17,7 +17,7 @@ package iamsdk
 import "testing"
 
 func TestPolicy(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	name := getRandomName("Enforcer")
 
@@ -117,7 +117,7 @@ func TestPolicy(t *testing.T) {
 }
 
 func TestGetFilteredPolicies(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	name := getRandomName("Enforcer")
 

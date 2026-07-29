@@ -17,7 +17,7 @@ package iamsdk
 import "testing"
 
 func TestOrder(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	productName := getRandomName("OrderProduct")
 	orderName := getRandomName("Order")

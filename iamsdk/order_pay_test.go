@@ -17,7 +17,7 @@ package iamsdk
 import "testing"
 
 func TestOrderPay(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	name := getRandomName("OrderPayProduct")
 	owner := "admin"
@@ -76,7 +76,7 @@ func TestOrderPay(t *testing.T) {
 }
 
 func TestBuyProduct(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	name := getRandomName("BuyProduct")
 	owner := "admin"

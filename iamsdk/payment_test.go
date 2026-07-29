@@ -20,7 +20,7 @@ import (
 )
 
 func TestPayment(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	name := getRandomName("Payment")
 

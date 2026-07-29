@@ -17,7 +17,7 @@ package iamsdk
 import "testing"
 
 func TestEnforce(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	modelName := getRandomName("enforceModel")
 

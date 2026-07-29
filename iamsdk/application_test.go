@@ -19,7 +19,7 @@ import (
 )
 
 func TestApplication(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	name := getRandomName("application")
 

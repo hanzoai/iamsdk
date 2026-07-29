@@ -26,7 +26,7 @@ func (resource *Resource) GetId() string {
 }
 
 func TestResource(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	filename := "resource.go"
 	file, err := os.Open(filename)

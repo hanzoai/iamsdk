@@ -20,13 +20,13 @@ import (
 )
 
 func TestInvitation(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	org, app := live(t)
 
 	name := getRandomName("unit_test_invitation")
 	code := "TEST1234"
 	// Test invitation object
 	invitation := &Invitation{
-		Owner:       TestCasdoorOrganization,
+		Owner:       org,
 		Name:        name,
 		CreatedTime: time.Now().Format(time.RFC3339),
 		DisplayName: "Test Invitation",
@@ -34,7 +34,7 @@ func TestInvitation(t *testing.T) {
 		DefaultCode: code,
 		Quota:       10,
 		UsedCount:   0,
-		Application: TestCasdoorApplication,
+		Application: app,
 		Email:       "test@example.com",
 		SignupGroup: "test-group",
 		State:       "Active",
@@ -79,7 +79,7 @@ func TestInvitation(t *testing.T) {
 	}
 
 	// Test GetInvitationInfo
-	invitation, err = GetInvitationInfo(code, TestCasdoorApplication)
+	invitation, err = GetInvitationInfo(code, app)
 	if err != nil {
 		t.Fatalf("Failed to get invitation info by code: %v", err)
 	}
