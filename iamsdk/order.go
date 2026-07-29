@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Order struct {
@@ -79,11 +78,7 @@ func (c *Client) GetOrders() ([]*Order, error) {
 }
 
 func (c *Client) GetPaginationOrders(p int, pageSize int, queryMap map[string]string) ([]*Order, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-orders", queryMap)
+	url := c.GetUrl("get-orders", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

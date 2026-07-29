@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Enforcer struct {
@@ -57,11 +56,7 @@ func (c *Client) GetEnforcers() ([]*Enforcer, error) {
 }
 
 func (c *Client) GetPaginationEnforcers(p int, pageSize int, queryMap map[string]string) ([]*Enforcer, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-enforcers", queryMap)
+	url := c.GetUrl("get-enforcers", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

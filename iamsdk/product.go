@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Product struct {
@@ -67,11 +66,7 @@ func (c *Client) GetProducts() ([]*Product, error) {
 }
 
 func (c *Client) GetPaginationProducts(p int, pageSize int, queryMap map[string]string) ([]*Product, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-products", queryMap)
+	url := c.GetUrl("get-products", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

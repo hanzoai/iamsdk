@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 var (
@@ -56,11 +55,7 @@ func (c *Client) GetSessions() ([]*Session, error) {
 }
 
 func (c *Client) GetPaginationSessions(p int, pageSize int, queryMap map[string]string) ([]*Session, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-sessions", queryMap)
+	url := c.GetUrl("get-sessions", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

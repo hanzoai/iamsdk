@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 // Transaction has the same definition as https://github.com/hanzo-iam/hanzo-iam/blob/master/object/transaction.go#L24
@@ -66,11 +65,7 @@ func (c *Client) GetTransactions() ([]*Transaction, error) {
 }
 
 func (c *Client) GetPaginationTransactions(p int, pageSize int, queryMap map[string]string) ([]*Transaction, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-transactions", queryMap)
+	url := c.GetUrl("get-transactions", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

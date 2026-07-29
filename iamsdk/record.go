@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Record struct {
@@ -36,9 +35,9 @@ type Record struct {
 	Action       string `xorm:"varchar(1000)" json:"action"`
 	Language     string `xorm:"varchar(100)" json:"language"`
 
-	StatusCode   int    `json:"statusCode"`
-	Response     string `xorm:"mediumtext" json:"response"`
-	Object       string `xorm:"mediumtext" json:"object"`
+	StatusCode int    `json:"statusCode"`
+	Response   string `xorm:"mediumtext" json:"response"`
+	Object     string `xorm:"mediumtext" json:"object"`
 
 	IsTriggered bool `json:"isTriggered"`
 }
@@ -64,11 +63,7 @@ func (c *Client) GetRecords() ([]*Record, error) {
 }
 
 func (c *Client) GetPaginationRecords(p int, pageSize int, queryMap map[string]string) ([]*Record, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-records", queryMap)
+	url := c.GetUrl("get-records", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Header struct {
@@ -67,11 +66,7 @@ func (c *Client) GetWebhooks() ([]*Webhook, error) {
 }
 
 func (c *Client) GetPaginationWebhooks(p int, pageSize int, queryMap map[string]string) ([]*Webhook, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-models", queryMap)
+	url := c.GetUrl("get-models", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Model struct {
@@ -64,11 +63,7 @@ func (c *Client) GetModels() ([]*Model, error) {
 }
 
 func (c *Client) GetPaginationModels(p int, pageSize int, queryMap map[string]string) ([]*Model, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-models", queryMap)
+	url := c.GetUrl("get-models", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
