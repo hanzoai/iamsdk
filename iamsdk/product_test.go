@@ -19,7 +19,7 @@ import (
 )
 
 func TestProduct(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	name := getRandomName("Product")
 	owner := "admin"

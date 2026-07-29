@@ -20,7 +20,7 @@ import (
 )
 
 func TestEmail(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	live(t)
 
 	email := &emailForm{
 		Title:     "casbin",

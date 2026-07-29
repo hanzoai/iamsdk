@@ -19,13 +19,13 @@ import (
 )
 
 func TestUser(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	org, _ := live(t)
 
 	name := getRandomName("User")
 
 	// Add a new object
 	user := &User{
-		Owner:       TestCasdoorOrganization,
+		Owner:       org,
 		Name:        name,
 		CreatedTime: GetCurrentTime(),
 		DisplayName: name,

@@ -19,13 +19,13 @@ import (
 )
 
 func TestCert(t *testing.T) {
-	InitConfig(TestCasdoorEndpoint, TestClientId, TestClientSecret, TestJwtPublicKey, TestCasdoorOrganization, TestCasdoorApplication)
+	org, _ := live(t)
 
 	name := getRandomName("cert")
 
 	// Add a new object
 	cert := &Cert{
-		Owner:           TestCasdoorOrganization,
+		Owner:           org,
 		Name:            name,
 		CreatedTime:     GetCurrentTime(),
 		DisplayName:     name,
