@@ -100,31 +100,38 @@ func WithHTTPClient(httpClient *http.Client) OAuthOption {
 	}
 }
 
-// GetOAuthToken gets the pivotal and necessary secret to interact with the HanzoIAM server
-func (c *Client) GetOAuthToken(code string, state string, opts ...OAuthOption) (*oauth2.Token, error) {
+// oauthConfig is the ONE place this SDK spells IAM's OAuth endpoints. Both are
+// beneath RoutePrefix, exactly as the IdP's OIDC discovery document publishes
+// them (authorization_endpoint / token_endpoint at
+// https://hanzo.id/v1/iam/oauth/{authorize,token}). The refresh grant is a
+// grant on the SAME token endpoint (RFC 6749 §6), not a route of its own.
+func (c *Client) oauthConfig() *oauth2.Config {
+	return &oauth2.Config{
+		ClientID:     c.ClientId,
+		ClientSecret: c.ClientSecret,
+		Endpoint: oauth2.Endpoint{
+			AuthURL:   fmt.Sprintf("%s%s/oauth/authorize", c.Endpoint, RoutePrefix),
+			TokenURL:  fmt.Sprintf("%s%s/oauth/token", c.Endpoint, RoutePrefix),
+			AuthStyle: oauth2.AuthStyleInParams,
+		},
+	}
+}
+
+// oauthCtx applies the caller's OAuthOptions to a background context.
+func oauthCtx(opts []OAuthOption) context.Context {
 	options := &oauthOptions{}
 	for _, opt := range opts {
 		opt(options)
 	}
-
-	config := oauth2.Config{
-		ClientID:     c.ClientId,
-		ClientSecret: c.ClientSecret,
-		Endpoint: oauth2.Endpoint{
-			AuthURL:   fmt.Sprintf("%s/oauth/authorize", c.Endpoint),
-			TokenURL:  fmt.Sprintf("%s/oauth/token", c.Endpoint),
-			AuthStyle: oauth2.AuthStyleInParams,
-		},
-		// RedirectURL: redirectUri,
-		Scopes: nil,
+	if options.httpClient == nil {
+		return context.Background()
 	}
+	return context.WithValue(context.Background(), oauth2.HTTPClient, options.httpClient)
+}
 
-	ctx := context.Background()
-	if options.httpClient != nil {
-		ctx = context.WithValue(ctx, oauth2.HTTPClient, options.httpClient)
-	}
-
-	token, err := config.Exchange(ctx, code)
+// GetOAuthToken gets the pivotal and necessary secret to interact with the HanzoIAM server
+func (c *Client) GetOAuthToken(code string, state string, opts ...OAuthOption) (*oauth2.Token, error) {
+	token, err := c.oauthConfig().Exchange(oauthCtx(opts), code)
 	if err != nil {
 		return token, err
 	}
@@ -138,29 +145,8 @@ func (c *Client) GetOAuthToken(code string, state string, opts ...OAuthOption) (
 
 // RefreshOAuthToken refreshes the OAuth token
 func (c *Client) RefreshOAuthToken(refreshToken string, opts ...OAuthOption) (*oauth2.Token, error) {
-	options := &oauthOptions{}
-	for _, opt := range opts {
-		opt(options)
-	}
-
-	config := oauth2.Config{
-		ClientID:     c.ClientId,
-		ClientSecret: c.ClientSecret,
-		Endpoint: oauth2.Endpoint{
-			AuthURL:   fmt.Sprintf("%s/oauth/authorize", c.Endpoint),
-			TokenURL:  fmt.Sprintf("%s/oauth/token", c.Endpoint),
-			AuthStyle: oauth2.AuthStyleInParams,
-		},
-		// RedirectURL: redirectUri,
-		Scopes: nil,
-	}
-
-	ctx := context.Background()
-	if options.httpClient != nil {
-		ctx = context.WithValue(ctx, oauth2.HTTPClient, options.httpClient)
-	}
-
-	token, err := config.TokenSource(ctx, &oauth2.Token{RefreshToken: refreshToken}).Token()
+	ctx := oauthCtx(opts)
+	token, err := c.oauthConfig().TokenSource(ctx, &oauth2.Token{RefreshToken: refreshToken}).Token()
 	if err != nil {
 		return token, err
 	}
