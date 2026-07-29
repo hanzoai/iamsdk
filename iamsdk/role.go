@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 // Role has the same definition as https://github.com/hanzo-iam/hanzo-iam/blob/master/object/role.go#L24
@@ -57,11 +56,7 @@ func (c *Client) GetRoles() ([]*Role, error) {
 }
 
 func (c *Client) GetPaginationRoles(p int, pageSize int, queryMap map[string]string) ([]*Role, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-roles", queryMap)
+	url := c.GetUrl("get-roles", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

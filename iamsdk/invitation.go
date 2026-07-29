@@ -17,7 +17,6 @@ package iamsdk
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 )
 
 // Invitation has the same definition as https://github.com/hanzo-iam/hanzo-iam/blob/master/object/invitation.go
@@ -65,11 +64,7 @@ func (c *Client) GetInvitations() ([]*Invitation, error) {
 }
 
 func (c *Client) GetPaginationInvitations(p int, pageSize int, queryMap map[string]string) ([]*Invitation, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-invitations", queryMap)
+	url := c.GetUrl("get-invitations", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

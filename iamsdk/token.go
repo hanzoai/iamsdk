@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 // Token has the same definition as https://github.com/hanzo-iam/hanzo-iam/blob/master/object/token.go#L45
@@ -79,11 +78,7 @@ func (c *Client) GetTokens() ([]*Token, error) {
 }
 
 func (c *Client) GetPaginationTokens(p int, pageSize int, queryMap map[string]string) ([]*Token, int, error) {
-	queryMap["owner"] = "admin"
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-tokens", queryMap)
+	url := c.GetUrl("get-tokens", page("admin", p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

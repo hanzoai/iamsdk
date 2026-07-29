@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type SubscriptionState string
@@ -73,11 +72,7 @@ func (c *Client) GetSubscriptions() ([]*Subscription, error) {
 }
 
 func (c *Client) GetPaginationSubscriptions(p int, pageSize int, queryMap map[string]string) ([]*Subscription, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-subscriptions", queryMap)
+	url := c.GetUrl("get-subscriptions", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

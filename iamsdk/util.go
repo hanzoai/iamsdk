@@ -23,6 +23,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -33,6 +34,32 @@ import (
 // edge refuses it on iam.hanzo.ai with 403 and the gateway 404s it. A test
 // (TestNoApiPrefixInSource) fails the build if it comes back.
 const RoutePrefix = "/v1/iam"
+
+// page is the ONE place this SDK builds a list query: the caller's own query,
+// plus the page coordinates, plus an owner DEFAULT.
+//
+// The owner is a default, never an override. An explicit owner rides through
+// verbatim, because org scoping is the SERVER's decision and only the server
+// holds the principal: IAM's authz.Scope honours an owner the caller may read
+// and refuses one it may not, and that refusal IS the answer. A client that
+// rewrote owner here would be a second, invisible scoping rule — a multi-tenant
+// caller could neither ask for another org nor learn it had been denied one,
+// because the question never left the process.
+//
+// The caller's map is never written to. A query is a value; the caller keeps
+// exactly what it passed in and may reuse it for the next page.
+func page(owner string, p int, pageSize int, queryMap map[string]string) map[string]string {
+	q := make(map[string]string, len(queryMap)+3)
+	for k, v := range queryMap {
+		q[k] = v
+	}
+	if q["owner"] == "" {
+		q["owner"] = owner
+	}
+	q["p"] = strconv.Itoa(p)
+	q["pageSize"] = strconv.Itoa(pageSize)
+	return q
+}
 
 func (c *Client) GetUrl(action string, queryMap map[string]string) string {
 	query := ""

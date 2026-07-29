@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type TableColumn struct {
@@ -79,11 +78,7 @@ func (c *Client) GetSyncers() ([]*Syncer, error) {
 }
 
 func (c *Client) GetPaginationSyncers(p int, pageSize int, queryMap map[string]string) ([]*Syncer, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-models", queryMap)
+	url := c.GetUrl("get-models", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {

@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 type Provider struct {
@@ -110,11 +109,7 @@ func (c *Client) GetProvider(name string) (*Provider, error) {
 }
 
 func (c *Client) GetPaginationProviders(p int, pageSize int, queryMap map[string]string) ([]*Provider, int, error) {
-	queryMap["owner"] = c.OrganizationName
-	queryMap["p"] = strconv.Itoa(p)
-	queryMap["pageSize"] = strconv.Itoa(pageSize)
-
-	url := c.GetUrl("get-providers", queryMap)
+	url := c.GetUrl("get-providers", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
