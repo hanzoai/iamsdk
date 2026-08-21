@@ -14,10 +14,6 @@
 
 package iamsdk
 
-func GetGlobalCerts() ([]*Cert, error) {
-	return globalClient.GetGlobalCerts()
-}
-
 func GetCerts() ([]*Cert, error) {
 	return globalClient.GetCerts()
 }

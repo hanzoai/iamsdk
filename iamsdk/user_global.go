@@ -22,16 +22,8 @@ func GetUsers() ([]*User, error) {
 	return globalClient.GetUsers()
 }
 
-func GetSortedUsers(sorter string, limit int) ([]*User, error) {
-	return globalClient.GetSortedUsers(sorter, limit)
-}
-
 func GetPaginationUsers(p int, pageSize int, queryMap map[string]string) ([]*User, int, error) {
 	return globalClient.GetPaginationUsers(p, pageSize, queryMap)
-}
-
-func GetUserCount(isOnline string) (int, error) {
-	return globalClient.GetUserCount(isOnline)
 }
 
 func GetUser(name string) (*User, error) {
@@ -48,11 +40,6 @@ func GetUserByPhone(phone string) (*User, error) {
 
 func GetUserByUserId(userId string) (*User, error) {
 	return globalClient.GetUserByUserId(userId)
-}
-
-// note: oldPassword is not required, if you don't need, just pass a empty string
-func SetPassword(owner, name, oldPassword, newPassword string) (bool, error) {
-	return globalClient.SetPassword(owner, name, oldPassword, newPassword)
 }
 
 func UpdateUserById(id string, user *User) (bool, error) {
@@ -73,8 +60,4 @@ func AddUser(user *User) (bool, error) {
 
 func DeleteUser(user *User) (bool, error) {
 	return globalClient.DeleteUser(user)
-}
-
-func CheckUserPassword(user *User) (bool, error) {
-	return globalClient.CheckUserPassword(user)
 }
