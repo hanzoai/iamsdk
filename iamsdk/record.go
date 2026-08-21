@@ -47,7 +47,7 @@ func (c *Client) GetRecords() ([]*Record, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-records", queryMap)
+	url := c.GetUrl("audit-logs", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -63,7 +63,7 @@ func (c *Client) GetRecords() ([]*Record, error) {
 }
 
 func (c *Client) GetPaginationRecords(p int, pageSize int, queryMap map[string]string) ([]*Record, int, error) {
-	url := c.GetUrl("get-records", page(c.OrganizationName, p, pageSize, queryMap))
+	url := c.GetUrl("audit-logs", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -89,7 +89,7 @@ func (c *Client) GetRecord(name string) (*Record, error) {
 		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
 	}
 
-	url := c.GetUrl("get-record", queryMap)
+	url := c.GetUrl("audit-logs/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -117,7 +117,7 @@ func (c *Client) AddRecord(record *Record) (bool, error) {
 		return false, err
 	}
 
-	resp, err := c.DoPost("add-record", nil, postBytes, false, false)
+	resp, err := c.DoPost("audit-logs", nil, postBytes, false, false)
 	if err != nil {
 		return false, err
 	}

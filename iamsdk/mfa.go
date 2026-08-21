@@ -166,7 +166,7 @@ func (c *Client) SetPreferred(owner, mfaType, name, secret string) error {
 		return err
 	}
 
-	_, err = c.DoPost("set-preferred-mfa", nil, postBytes, true, false)
+	_, err = c.DoPost("mfa/preferred", nil, postBytes, true, false)
 	return err
 }
 
@@ -176,6 +176,6 @@ func (c *Client) Delete(owner, name string) error {
 		"name":  name,
 	}
 
-	_, err := c.DoPost("delete-mfa", queryMap, nil, false, false)
+	_, err := c.DoPost("mfa/disable", queryMap, nil, false, false)
 	return err
 }

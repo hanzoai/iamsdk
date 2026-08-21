@@ -51,7 +51,7 @@ func (c *Client) GetPermissions() ([]*Permission, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-permissions", queryMap)
+	url := c.GetUrl("permissions", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -87,7 +87,7 @@ func (c *Client) GetPermissionsByRole(name string) ([]*Permission, error) {
 }
 
 func (c *Client) GetPaginationPermissions(p int, pageSize int, queryMap map[string]string) ([]*Permission, int, error) {
-	url := c.GetUrl("get-permissions", page(c.OrganizationName, p, pageSize, queryMap))
+	url := c.GetUrl("permissions", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -113,7 +113,7 @@ func (c *Client) GetPermission(name string) (*Permission, error) {
 		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
 	}
 
-	url := c.GetUrl("get-permission", queryMap)
+	url := c.GetUrl("permissions/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -129,21 +129,21 @@ func (c *Client) GetPermission(name string) (*Permission, error) {
 }
 
 func (c *Client) UpdatePermission(permission *Permission) (bool, error) {
-	_, affected, err := c.modifyPermission("update-permission", permission, nil)
+	_, affected, err := c.modifyPermission("permissions/update", permission, nil)
 	return affected, err
 }
 
 func (c *Client) UpdatePermissionForColumns(permission *Permission, columns []string) (bool, error) {
-	_, affected, err := c.modifyPermission("update-permission", permission, columns)
+	_, affected, err := c.modifyPermission("permissions/update", permission, columns)
 	return affected, err
 }
 
 func (c *Client) AddPermission(permission *Permission) (bool, error) {
-	_, affected, err := c.modifyPermission("add-permission", permission, nil)
+	_, affected, err := c.modifyPermission("permissions", permission, nil)
 	return affected, err
 }
 
 func (c *Client) DeletePermission(permission *Permission) (bool, error) {
-	_, affected, err := c.modifyPermission("delete-permission", permission, nil)
+	_, affected, err := c.modifyPermission("permissions/delete", permission, nil)
 	return affected, err
 }
