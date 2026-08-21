@@ -105,28 +105,6 @@ func (c *Client) GetInvitation(name string) (*Invitation, error) {
 	return invitation, nil
 }
 
-func (c *Client) GetInvitationInfo(code string, applicationName string) (*Invitation, error) {
-	applicationId := fmt.Sprintf("admin/%s", applicationName)
-	queryMap := map[string]string{
-		"applicationId": applicationId,
-		"code":          code,
-	}
-
-	url := c.GetUrl("get-invitation-info", queryMap)
-
-	bytes, err := c.DoGetBytes(url)
-	if err != nil {
-		return nil, err
-	}
-
-	var invitation *Invitation
-	err = json.Unmarshal(bytes, &invitation)
-	if err != nil {
-		return nil, err
-	}
-	return invitation, nil
-}
-
 func (c *Client) UpdateInvitation(invitation *Invitation) (bool, error) {
 	_, affected, err := c.modifyInvitation("invitations/update", invitation, nil)
 	return affected, err

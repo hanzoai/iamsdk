@@ -18,10 +18,6 @@ func GetApplications() ([]*Application, error) {
 	return globalClient.GetApplications()
 }
 
-func GetOrganizationApplications() ([]*Application, error) {
-	return globalClient.GetOrganizationApplications()
-}
-
 func GetApplication(name string) (*Application, error) {
 	return globalClient.GetApplication(name)
 }
