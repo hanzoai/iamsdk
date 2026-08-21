@@ -18,10 +18,6 @@ func GetPermissions() ([]*Permission, error) {
 	return globalClient.GetPermissions()
 }
 
-func GetPermissionsByRole(name string) ([]*Permission, error) {
-	return globalClient.GetPermissionsByRole(name)
-}
-
 func GetPaginationPermissions(p int, pageSize int, queryMap map[string]string) ([]*Permission, int, error) {
 	return globalClient.GetPaginationPermissions(p, pageSize, queryMap)
 }

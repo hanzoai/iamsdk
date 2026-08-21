@@ -176,27 +176,6 @@ func (c *Client) GetApplications() ([]*Application, error) {
 	return applications, nil
 }
 
-func (c *Client) GetOrganizationApplications() ([]*Application, error) {
-	queryMap := map[string]string{
-		"owner":        "admin",
-		"organization": c.OrganizationName,
-	}
-
-	url := c.GetUrl("get-organization-applications", queryMap)
-
-	bytes, err := c.DoGetBytes(url)
-	if err != nil {
-		return nil, err
-	}
-
-	var applications []*Application
-	err = json.Unmarshal(bytes, &applications)
-	if err != nil {
-		return nil, err
-	}
-	return applications, nil
-}
-
 func (c *Client) GetApplication(name string) (*Application, error) {
 	queryMap := map[string]string{
 		"id": fmt.Sprintf("%s/%s", "admin", name),

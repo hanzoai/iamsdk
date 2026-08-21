@@ -38,22 +38,6 @@ type Cert struct {
 	AuthorityRootPublicKey string `xorm:"mediumtext" json:"authorityRootPublicKey"`
 }
 
-func (c *Client) GetGlobalCerts() ([]*Cert, error) {
-	url := c.GetUrl("get-global-certs", nil)
-
-	bytes, err := c.DoGetBytes(url)
-	if err != nil {
-		return nil, err
-	}
-
-	var certs []*Cert
-	err = json.Unmarshal(bytes, &certs)
-	if err != nil {
-		return nil, err
-	}
-	return certs, nil
-}
-
 func (c *Client) GetCerts() ([]*Cert, error) {
 	queryMap := map[string]string{
 		"owner": c.OrganizationName,

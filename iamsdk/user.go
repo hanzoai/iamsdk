@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 const MfaRecoveryCodesSession = "mfa_recovery_codes"
@@ -237,22 +236,21 @@ type User struct {
 	Custom10        string `xorm:"custom10 text" json:"custom10"`
 
 	// WebauthnCredentials []webauthn.Credential `xorm:"webauthnCredentials blob" json:"webauthnCredentials"`
-	PreferredMfaType  string        `xorm:"varchar(100)" json:"preferredMfaType"`
-	RecoveryCodes     []string      `xorm:"mediumtext" json:"recoveryCodes"`
-	TotpSecret        string        `xorm:"varchar(100)" json:"totpSecret"`
-	MfaPhoneEnabled   bool          `json:"mfaPhoneEnabled"`
-	MfaEmailEnabled   bool          `json:"mfaEmailEnabled"`
-	MfaRadiusEnabled  bool          `json:"mfaRadiusEnabled"`
-	MfaRadiusUsername string        `xorm:"varchar(100)" json:"mfaRadiusUsername"`
-	MfaRadiusProvider string        `xorm:"varchar(100)" json:"mfaRadiusProvider"`
-	MfaPushEnabled    bool          `json:"mfaPushEnabled"`
-	MfaPushReceiver   string        `xorm:"varchar(100)" json:"mfaPushReceiver"`
-	MfaPushProvider   string        `xorm:"varchar(100)" json:"mfaPushProvider"`
-	MultiFactorAuths  []*MfaProps   `xorm:"-" json:"multiFactorAuths,omitempty"`
-	Invitation        string        `xorm:"varchar(100) index" json:"invitation"`
-	InvitationCode    string        `xorm:"varchar(100) index" json:"invitationCode"`
-	FaceIds           []*FaceId     `json:"faceIds"`
-	Cart              []ProductInfo `xorm:"mediumtext" json:"cart"`
+	PreferredMfaType  string      `xorm:"varchar(100)" json:"preferredMfaType"`
+	RecoveryCodes     []string    `xorm:"mediumtext" json:"recoveryCodes"`
+	TotpSecret        string      `xorm:"varchar(100)" json:"totpSecret"`
+	MfaPhoneEnabled   bool        `json:"mfaPhoneEnabled"`
+	MfaEmailEnabled   bool        `json:"mfaEmailEnabled"`
+	MfaRadiusEnabled  bool        `json:"mfaRadiusEnabled"`
+	MfaRadiusUsername string      `xorm:"varchar(100)" json:"mfaRadiusUsername"`
+	MfaRadiusProvider string      `xorm:"varchar(100)" json:"mfaRadiusProvider"`
+	MfaPushEnabled    bool        `json:"mfaPushEnabled"`
+	MfaPushReceiver   string      `xorm:"varchar(100)" json:"mfaPushReceiver"`
+	MfaPushProvider   string      `xorm:"varchar(100)" json:"mfaPushProvider"`
+	MultiFactorAuths  []*MfaProps `xorm:"-" json:"multiFactorAuths,omitempty"`
+	Invitation        string      `xorm:"varchar(100) index" json:"invitation"`
+	InvitationCode    string      `xorm:"varchar(100) index" json:"invitationCode"`
+	FaceIds           []*FaceId   `json:"faceIds"`
 
 	Ldap       string            `xorm:"ldap varchar(100)" json:"ldap"`
 	Properties map[string]string `json:"properties"`
@@ -309,28 +307,6 @@ func (c *Client) GetUsers() ([]*User, error) {
 	return users, nil
 }
 
-func (c *Client) GetSortedUsers(sorter string, limit int) ([]*User, error) {
-	queryMap := map[string]string{
-		"owner":  c.OrganizationName,
-		"sorter": sorter,
-		"limit":  strconv.Itoa(limit),
-	}
-
-	url := c.GetUrl("get-sorted-users", queryMap)
-
-	bytes, err := c.DoGetBytes(url)
-	if err != nil {
-		return nil, err
-	}
-
-	var users []*User
-	err = json.Unmarshal(bytes, &users)
-	if err != nil {
-		return nil, err
-	}
-	return users, nil
-}
-
 func (c *Client) GetPaginationUsers(p int, pageSize int, queryMap map[string]string) ([]*User, int, error) {
 	url := c.GetUrl("users", page(c.OrganizationName, p, pageSize, queryMap))
 
@@ -351,27 +327,6 @@ func (c *Client) GetPaginationUsers(p int, pageSize int, queryMap map[string]str
 	}
 
 	return users, int(response.Data2.(float64)), nil
-}
-
-func (c *Client) GetUserCount(isOnline string) (int, error) {
-	queryMap := map[string]string{
-		"owner":    c.OrganizationName,
-		"isOnline": isOnline,
-	}
-
-	url := c.GetUrl("get-user-count", queryMap)
-
-	bytes, err := c.DoGetBytes(url)
-	if err != nil {
-		return -1, err
-	}
-
-	var count int
-	err = json.Unmarshal(bytes, &count)
-	if err != nil {
-		return -1, err
-	}
-	return count, nil
 }
 
 func (c *Client) GetUser(name string) (*User, error) {
@@ -457,28 +412,6 @@ func (c *Client) GetUserByUserId(userId string) (*User, error) {
 	return user, nil
 }
 
-// note: oldPassword is not required, if you don't need, just pass a empty string
-func (c *Client) SetPassword(owner, name, oldPassword, newPassword string) (bool, error) {
-	param := map[string]string{
-		"userOwner":   owner,
-		"userName":    name,
-		"oldPassword": oldPassword,
-		"newPassword": newPassword,
-	}
-
-	bytes, err := json.Marshal(param)
-	if err != nil {
-		return false, err
-	}
-
-	resp, err := c.DoPost("set-password", nil, bytes, true, false)
-	if err != nil {
-		return false, err
-	}
-
-	return resp.Status == "ok", nil
-}
-
 func (c *Client) UpdateUserById(id string, user *User) (bool, error) {
 	_, affected, err := c.modifyUserById("users/update", id, user, nil)
 	return affected, err
@@ -506,11 +439,6 @@ func (c *Client) AddUser(user *User) (bool, error) {
 
 func (c *Client) DeleteUser(user *User) (bool, error) {
 	_, affected, err := c.modifyUser("users/delete", user, nil)
-	return affected, err
-}
-
-func (c *Client) CheckUserPassword(user *User) (bool, error) {
-	_, affected, err := c.modifyUser("check-user-password", user, nil)
 	return affected, err
 }
 
