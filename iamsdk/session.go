@@ -20,11 +20,6 @@ import (
 	"fmt"
 )
 
-var (
-	CasdoorApplication  = "app-built-in"
-	CasdoorOrganization = "built-in"
-)
-
 type Session struct {
 	Owner       string `xorm:"varchar(100) notnull pk" json:"owner"`
 	Name        string `xorm:"varchar(100) notnull pk" json:"name"`
