@@ -73,7 +73,7 @@ func (c *Client) GetProviders() ([]*Provider, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-providers", queryMap)
+	url := c.GetUrl("providers", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -93,7 +93,7 @@ func (c *Client) GetProvider(name string) (*Provider, error) {
 		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
 	}
 
-	url := c.GetUrl("get-provider", queryMap)
+	url := c.GetUrl("providers/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -109,7 +109,7 @@ func (c *Client) GetProvider(name string) (*Provider, error) {
 }
 
 func (c *Client) GetPaginationProviders(p int, pageSize int, queryMap map[string]string) ([]*Provider, int, error) {
-	url := c.GetUrl("get-providers", page(c.OrganizationName, p, pageSize, queryMap))
+	url := c.GetUrl("providers", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -131,16 +131,16 @@ func (c *Client) GetPaginationProviders(p int, pageSize int, queryMap map[string
 }
 
 func (c *Client) UpdateProvider(provider *Provider) (bool, error) {
-	_, affected, err := c.modifyProvider("update-provider", provider, nil)
+	_, affected, err := c.modifyProvider("providers/update", provider, nil)
 	return affected, err
 }
 
 func (c *Client) AddProvider(provider *Provider) (bool, error) {
-	_, affected, err := c.modifyProvider("add-provider", provider, nil)
+	_, affected, err := c.modifyProvider("providers", provider, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteProvider(provider *Provider) (bool, error) {
-	_, affected, err := c.modifyProvider("delete-provider", provider, nil)
+	_, affected, err := c.modifyProvider("providers/delete", provider, nil)
 	return affected, err
 }
