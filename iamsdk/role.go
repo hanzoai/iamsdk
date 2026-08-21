@@ -40,7 +40,7 @@ func (c *Client) GetRoles() ([]*Role, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-roles", queryMap)
+	url := c.GetUrl("roles", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -56,7 +56,7 @@ func (c *Client) GetRoles() ([]*Role, error) {
 }
 
 func (c *Client) GetPaginationRoles(p int, pageSize int, queryMap map[string]string) ([]*Role, int, error) {
-	url := c.GetUrl("get-roles", page(c.OrganizationName, p, pageSize, queryMap))
+	url := c.GetUrl("roles", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -82,7 +82,7 @@ func (c *Client) GetRole(name string) (*Role, error) {
 		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
 	}
 
-	url := c.GetUrl("get-role", queryMap)
+	url := c.GetUrl("roles/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -98,21 +98,21 @@ func (c *Client) GetRole(name string) (*Role, error) {
 }
 
 func (c *Client) UpdateRole(role *Role) (bool, error) {
-	_, affected, err := c.modifyRole("update-role", role, nil)
+	_, affected, err := c.modifyRole("roles/update", role, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateRoleForColumns(role *Role, columns []string) (bool, error) {
-	_, affected, err := c.modifyRole("update-role", role, columns)
+	_, affected, err := c.modifyRole("roles/update", role, columns)
 	return affected, err
 }
 
 func (c *Client) AddRole(role *Role) (bool, error) {
-	_, affected, err := c.modifyRole("add-role", role, nil)
+	_, affected, err := c.modifyRole("roles", role, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteRole(role *Role) (bool, error) {
-	_, affected, err := c.modifyRole("delete-role", role, nil)
+	_, affected, err := c.modifyRole("roles/delete", role, nil)
 	return affected, err
 }

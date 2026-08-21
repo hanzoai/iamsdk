@@ -274,7 +274,7 @@ type User struct {
 }
 
 func (c *Client) GetGlobalUsers() ([]*User, error) {
-	url := c.GetUrl("get-global-users", nil)
+	url := c.GetUrl("users", nil)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -294,7 +294,7 @@ func (c *Client) GetUsers() ([]*User, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-users", queryMap)
+	url := c.GetUrl("users", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -332,7 +332,7 @@ func (c *Client) GetSortedUsers(sorter string, limit int) ([]*User, error) {
 }
 
 func (c *Client) GetPaginationUsers(p int, pageSize int, queryMap map[string]string) ([]*User, int, error) {
-	url := c.GetUrl("get-users", page(c.OrganizationName, p, pageSize, queryMap))
+	url := c.GetUrl("users", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -379,7 +379,7 @@ func (c *Client) GetUser(name string) (*User, error) {
 		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
 	}
 
-	url := c.GetUrl("get-user", queryMap)
+	url := c.GetUrl("users/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -400,7 +400,7 @@ func (c *Client) GetUserByEmail(email string) (*User, error) {
 		"email": email,
 	}
 
-	url := c.GetUrl("get-user", queryMap)
+	url := c.GetUrl("users/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -421,7 +421,7 @@ func (c *Client) GetUserByPhone(phone string) (*User, error) {
 		"phone": phone,
 	}
 
-	url := c.GetUrl("get-user", queryMap)
+	url := c.GetUrl("users/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -442,7 +442,7 @@ func (c *Client) GetUserByUserId(userId string) (*User, error) {
 		"userId": userId,
 	}
 
-	url := c.GetUrl("get-user", queryMap)
+	url := c.GetUrl("users/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -480,32 +480,32 @@ func (c *Client) SetPassword(owner, name, oldPassword, newPassword string) (bool
 }
 
 func (c *Client) UpdateUserById(id string, user *User) (bool, error) {
-	_, affected, err := c.modifyUserById("update-user", id, user, nil)
+	_, affected, err := c.modifyUserById("users/update", id, user, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateUserByUserId(owner string, userId string, user *User) (bool, error) {
-	_, affected, err := c.modifyUserByUserId("update-user", owner, userId, user, nil)
+	_, affected, err := c.modifyUserByUserId("users/update", owner, userId, user, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateUser(user *User) (bool, error) {
-	_, affected, err := c.modifyUser("update-user", user, nil)
+	_, affected, err := c.modifyUser("users/update", user, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateUserForColumns(user *User, columns []string) (bool, error) {
-	_, affected, err := c.modifyUser("update-user", user, columns)
+	_, affected, err := c.modifyUser("users/update", user, columns)
 	return affected, err
 }
 
 func (c *Client) AddUser(user *User) (bool, error) {
-	_, affected, err := c.modifyUser("add-user", user, nil)
+	_, affected, err := c.modifyUser("users", user, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteUser(user *User) (bool, error) {
-	_, affected, err := c.modifyUser("delete-user", user, nil)
+	_, affected, err := c.modifyUser("users/delete", user, nil)
 	return affected, err
 }
 

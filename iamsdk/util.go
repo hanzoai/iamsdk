@@ -29,7 +29,7 @@ import (
 )
 
 // RoutePrefix is the ONE place this SDK spells IAM's route prefix. Every action
-// is a verb-noun beneath it (`/v1/iam/get-users`), per the Hanzo route standard.
+// is a verb-noun beneath it (`/v1/iam/users`), per the Hanzo route standard.
 // The prefix this replaced is not merely non-standard, it is unreachable: the
 // edge refuses it on iam.hanzo.ai with 403 and the gateway 404s it. A test
 // (TestNoApiPrefixInSource) fails the build if it comes back.

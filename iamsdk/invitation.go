@@ -48,7 +48,7 @@ func (c *Client) GetInvitations() ([]*Invitation, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-invitations", queryMap)
+	url := c.GetUrl("invitations", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -64,7 +64,7 @@ func (c *Client) GetInvitations() ([]*Invitation, error) {
 }
 
 func (c *Client) GetPaginationInvitations(p int, pageSize int, queryMap map[string]string) ([]*Invitation, int, error) {
-	url := c.GetUrl("get-invitations", page(c.OrganizationName, p, pageSize, queryMap))
+	url := c.GetUrl("invitations", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -90,7 +90,7 @@ func (c *Client) GetInvitation(name string) (*Invitation, error) {
 		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
 	}
 
-	url := c.GetUrl("get-invitation", queryMap)
+	url := c.GetUrl("invitations/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -128,22 +128,22 @@ func (c *Client) GetInvitationInfo(code string, applicationName string) (*Invita
 }
 
 func (c *Client) UpdateInvitation(invitation *Invitation) (bool, error) {
-	_, affected, err := c.modifyInvitation("update-invitation", invitation, nil)
+	_, affected, err := c.modifyInvitation("invitations/update", invitation, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateInvitationForColumns(invitation *Invitation, columns []string) (bool, error) {
-	_, affected, err := c.modifyInvitation("update-invitation", invitation, columns)
+	_, affected, err := c.modifyInvitation("invitations/update", invitation, columns)
 	return affected, err
 }
 
 func (c *Client) AddInvitation(invitation *Invitation) (bool, error) {
-	_, affected, err := c.modifyInvitation("add-invitation", invitation, nil)
+	_, affected, err := c.modifyInvitation("invitations", invitation, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteInvitation(invitation *Invitation) (bool, error) {
-	_, affected, err := c.modifyInvitation("delete-invitation", invitation, nil)
+	_, affected, err := c.modifyInvitation("invitations/delete", invitation, nil)
 	return affected, err
 }
 
