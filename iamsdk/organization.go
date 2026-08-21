@@ -95,7 +95,7 @@ func (c *Client) GetOrganization(name string) (*Organization, error) {
 		"id": fmt.Sprintf("%s/%s", "admin", name),
 	}
 
-	url := c.GetUrl("get-organization", queryMap)
+	url := c.GetUrl("organizations/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -115,7 +115,7 @@ func (c *Client) GetOrganizations() ([]*Organization, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-organizations", queryMap)
+	url := c.GetUrl("organizations", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -135,7 +135,7 @@ func (c *Client) GetOrganizationNames() ([]*Organization, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-organization-names", queryMap)
+	url := c.GetUrl("organizations", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -151,16 +151,16 @@ func (c *Client) GetOrganizationNames() ([]*Organization, error) {
 }
 
 func (c *Client) AddOrganization(organization *Organization) (bool, error) {
-	_, affected, err := c.modifyOrganization("add-organization", organization, nil)
+	_, affected, err := c.modifyOrganization("organizations", organization, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteOrganization(organization *Organization) (bool, error) {
-	_, affected, err := c.modifyOrganization("delete-organization", organization, nil)
+	_, affected, err := c.modifyOrganization("organizations/delete", organization, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateOrganization(organization *Organization) (bool, error) {
-	_, affected, err := c.modifyOrganization("update-organization", organization, nil)
+	_, affected, err := c.modifyOrganization("organizations/update", organization, nil)
 	return affected, err
 }

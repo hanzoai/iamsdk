@@ -59,7 +59,7 @@ func (c *Client) GetCerts() ([]*Cert, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-certs", queryMap)
+	url := c.GetUrl("certs", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -79,7 +79,7 @@ func (c *Client) GetCert(name string) (*Cert, error) {
 		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
 	}
 
-	url := c.GetUrl("get-cert", queryMap)
+	url := c.GetUrl("certs/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -95,16 +95,16 @@ func (c *Client) GetCert(name string) (*Cert, error) {
 }
 
 func (c *Client) AddCert(cert *Cert) (bool, error) {
-	_, affected, err := c.modifyCert("add-cert", cert, nil)
+	_, affected, err := c.modifyCert("certs", cert, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateCert(cert *Cert) (bool, error) {
-	_, affected, err := c.modifyCert("update-cert", cert, nil)
+	_, affected, err := c.modifyCert("certs/update", cert, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteCert(cert *Cert) (bool, error) {
-	_, affected, err := c.modifyCert("delete-cert", cert, nil)
+	_, affected, err := c.modifyCert("certs/delete", cert, nil)
 	return affected, err
 }

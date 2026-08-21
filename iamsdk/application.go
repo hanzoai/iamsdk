@@ -161,7 +161,7 @@ func (c *Client) GetApplications() ([]*Application, error) {
 		"owner": "admin",
 	}
 
-	url := c.GetUrl("get-applications", queryMap)
+	url := c.GetUrl("applications", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -202,7 +202,7 @@ func (c *Client) GetApplication(name string) (*Application, error) {
 		"id": fmt.Sprintf("%s/%s", "admin", name),
 	}
 
-	url := c.GetUrl("get-application", queryMap)
+	url := c.GetUrl("applications/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -218,16 +218,16 @@ func (c *Client) GetApplication(name string) (*Application, error) {
 }
 
 func (c *Client) AddApplication(application *Application) (bool, error) {
-	_, affected, err := c.modifyApplication("add-application", application, nil)
+	_, affected, err := c.modifyApplication("applications", application, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteApplication(application *Application) (bool, error) {
-	_, affected, err := c.modifyApplication("delete-application", application, nil)
+	_, affected, err := c.modifyApplication("applications/delete", application, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateApplication(application *Application) (bool, error) {
-	_, affected, err := c.modifyApplication("update-application", application, nil)
+	_, affected, err := c.modifyApplication("applications/update", application, nil)
 	return affected, err
 }

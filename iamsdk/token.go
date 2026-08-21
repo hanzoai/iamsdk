@@ -62,7 +62,7 @@ func (c *Client) GetTokens() ([]*Token, error) {
 		"owner": "admin",
 	}
 
-	url := c.GetUrl("get-tokens", queryMap)
+	url := c.GetUrl("tokens", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -78,7 +78,7 @@ func (c *Client) GetTokens() ([]*Token, error) {
 }
 
 func (c *Client) GetPaginationTokens(p int, pageSize int, queryMap map[string]string) ([]*Token, int, error) {
-	url := c.GetUrl("get-tokens", page("admin", p, pageSize, queryMap))
+	url := c.GetUrl("tokens", page("admin", p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -104,7 +104,7 @@ func (c *Client) GetToken(name string) (*Token, error) {
 		"id": fmt.Sprintf("%s/%s", "admin", name),
 	}
 
-	url := c.GetUrl("get-token", queryMap)
+	url := c.GetUrl("tokens/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -120,22 +120,22 @@ func (c *Client) GetToken(name string) (*Token, error) {
 }
 
 func (c *Client) UpdateToken(token *Token) (bool, error) {
-	_, affected, err := c.modifyToken("update-token", token, nil)
+	_, affected, err := c.modifyToken("tokens/update", token, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateTokenForColumns(token *Token, columns []string) (bool, error) {
-	_, affected, err := c.modifyToken("update-token", token, columns)
+	_, affected, err := c.modifyToken("tokens/update", token, columns)
 	return affected, err
 }
 
 func (c *Client) AddToken(token *Token) (bool, error) {
-	_, affected, err := c.modifyToken("add-token", token, nil)
+	_, affected, err := c.modifyToken("tokens", token, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteToken(token *Token) (bool, error) {
-	_, affected, err := c.modifyToken("delete-token", token, nil)
+	_, affected, err := c.modifyToken("tokens/delete", token, nil)
 	return affected, err
 }
 

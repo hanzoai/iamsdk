@@ -39,7 +39,7 @@ func (c *Client) GetSessions() ([]*Session, error) {
 		"owner": c.OrganizationName,
 	}
 
-	url := c.GetUrl("get-sessions", queryMap)
+	url := c.GetUrl("sessions/list", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -55,7 +55,7 @@ func (c *Client) GetSessions() ([]*Session, error) {
 }
 
 func (c *Client) GetPaginationSessions(p int, pageSize int, queryMap map[string]string) ([]*Session, int, error) {
-	url := c.GetUrl("get-sessions", page(c.OrganizationName, p, pageSize, queryMap))
+	url := c.GetUrl("sessions/list", page(c.OrganizationName, p, pageSize, queryMap))
 
 	response, err := c.DoGetResponse(url)
 	if err != nil {
@@ -80,7 +80,7 @@ func (c *Client) GetSession(name string, application string) (*Session, error) {
 		"sessionPkId": fmt.Sprintf("%s/%s/%s", c.OrganizationName, name, application),
 	}
 
-	url := c.GetUrl("get-session", queryMap)
+	url := c.GetUrl("sessions/get", queryMap)
 
 	bytes, err := c.DoGetBytes(url)
 	if err != nil {
@@ -96,21 +96,21 @@ func (c *Client) GetSession(name string, application string) (*Session, error) {
 }
 
 func (c *Client) UpdateSession(session *Session) (bool, error) {
-	_, affected, err := c.modifySession("update-session", session, nil)
+	_, affected, err := c.modifySession("sessions/update", session, nil)
 	return affected, err
 }
 
 func (c *Client) UpdateSessionForColumns(session *Session, columns []string) (bool, error) {
-	_, affected, err := c.modifySession("update-session", session, columns)
+	_, affected, err := c.modifySession("sessions/update", session, columns)
 	return affected, err
 }
 
 func (c *Client) AddSession(session *Session) (bool, error) {
-	_, affected, err := c.modifySession("add-session", session, nil)
+	_, affected, err := c.modifySession("sessions/create", session, nil)
 	return affected, err
 }
 
 func (c *Client) DeleteSession(session *Session) (bool, error) {
-	_, affected, err := c.modifySession("delete-session", session, nil)
+	_, affected, err := c.modifySession("sessions/delete", session, nil)
 	return affected, err
 }
