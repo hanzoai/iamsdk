@@ -60,11 +60,6 @@ type Claims struct {
 	BillingAccount string `json:"billing_account,omitempty"`
 }
 
-// IsRefreshToken returns true if the token is a refresh token
-func (c Claims) IsRefreshToken() bool {
-	return c.RefreshTokenType == "refresh-token"
-}
-
 // publicKeyFromPEM returns the public key from either an X.509 CERTIFICATE
 // PEM block or a PUBLIC KEY / RSA PUBLIC KEY PEM block. IAM serves the
 // application's signing key as the X.509 cert PEM (matches what the IAM

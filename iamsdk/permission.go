@@ -66,26 +66,6 @@ func (c *Client) GetPermissions() ([]*Permission, error) {
 	return permissions, nil
 }
 
-func (c *Client) GetPermissionsByRole(name string) ([]*Permission, error) {
-	queryMap := map[string]string{
-		"id": fmt.Sprintf("%s/%s", c.OrganizationName, name),
-	}
-
-	url := c.GetUrl("get-permissions-by-role", queryMap)
-
-	bytes, err := c.DoGetBytes(url)
-	if err != nil {
-		return nil, err
-	}
-
-	var permissions []*Permission
-	err = json.Unmarshal(bytes, &permissions)
-	if err != nil {
-		return nil, err
-	}
-	return permissions, nil
-}
-
 func (c *Client) GetPaginationPermissions(p int, pageSize int, queryMap map[string]string) ([]*Permission, int, error) {
 	url := c.GetUrl("permissions", page(c.OrganizationName, p, pageSize, queryMap))
 
