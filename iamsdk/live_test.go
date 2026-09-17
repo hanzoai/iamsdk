@@ -57,7 +57,7 @@ func getRandomCode(length int) string {
 	var stdNums = []byte("0123456789")
 	var result []byte
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < length; i++ {
+	for range length {
 		result = append(result, stdNums[r.Intn(len(stdNums))])
 	}
 	return string(result)

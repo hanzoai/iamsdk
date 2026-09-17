@@ -27,7 +27,7 @@ import (
 )
 
 func TestGetUrlUsesV1IamPrefix(t *testing.T) {
-	c := &Client{AuthConfig: AuthConfig{Endpoint: "https://iam.hanzo.ai"}}
+	c := &Client{Endpoint: "https://iam.hanzo.ai"}
 
 	got := c.GetUrl("users", map[string]string{"owner": "hanzo"})
 	want := "https://iam.hanzo.ai/v1/iam/users?owner=hanzo"

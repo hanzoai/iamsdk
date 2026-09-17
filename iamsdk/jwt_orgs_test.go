@@ -58,22 +58,21 @@ func TestParseJwtTokenCarriesOrgs(t *testing.T) {
 	key, certPEM := signingCert(t)
 
 	minted := Claims{
-		User: User{Owner: "maxpower", Name: "davelorenzini"},
+		Owner: "maxpower",
+		Name:  "davelorenzini",
 		Orgs: []OrgRef{
 			{Org: "maxpower", Role: "admin"},
 			{Org: "acme", Role: "member"},
 		},
 		TokenType: "access-token",
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
-		},
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
 	}
 	signed, err := jwt.NewWithClaims(jwt.SigningMethodRS256, minted).SignedString(key)
 	if err != nil {
 		t.Fatalf("sign: %v", err)
 	}
 
-	c := &Client{AuthConfig: AuthConfig{Certificate: certPEM}}
+	c := &Client{Certificate: certPEM}
 	claims, err := c.ParseJwtToken(signed)
 	if err != nil {
 		t.Fatalf("ParseJwtToken: %v", err)
@@ -118,18 +117,17 @@ func TestParseJwtTokenCarriesBillingAccount(t *testing.T) {
 	key, certPEM := signingCert(t)
 
 	minted := Claims{
-		User:           User{Owner: "acme", Name: "alice"},
+		Owner:          "acme",
+		Name:           "alice",
 		BillingAccount: "org:acme",
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
-		},
+		ExpiresAt:      jwt.NewNumericDate(time.Now().Add(time.Hour)),
 	}
 	signed, err := jwt.NewWithClaims(jwt.SigningMethodRS256, minted).SignedString(key)
 	if err != nil {
 		t.Fatalf("sign: %v", err)
 	}
 
-	c := &Client{AuthConfig: AuthConfig{Certificate: certPEM}}
+	c := &Client{Certificate: certPEM}
 	claims, err := c.ParseJwtToken(signed)
 	if err != nil {
 		t.Fatalf("ParseJwtToken: %v", err)

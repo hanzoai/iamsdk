@@ -66,7 +66,7 @@ type Claims struct {
 // database stores in cert.certificate); some self-hosted configurations
 // supply a raw public-key PEM. Accept both so iamsdk consumers don't have
 // to know the difference.
-func publicKeyFromPEM(pemBytes []byte) (interface{}, error) {
+func publicKeyFromPEM(pemBytes []byte) (any, error) {
 	block, _ := pem.Decode(pemBytes)
 	if block == nil {
 		return nil, errors.New("iamsdk: not valid PEM")
@@ -82,7 +82,7 @@ func publicKeyFromPEM(pemBytes []byte) (interface{}, error) {
 }
 
 func (c *Client) ParseJwtToken(token string) (*Claims, error) {
-	t, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+	t, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (any, error) {
 		switch token.Method.Alg() {
 		case jwt.SigningMethodES256.Alg(), jwt.SigningMethodES512.Alg(),
 			jwt.SigningMethodRS256.Alg(), jwt.SigningMethodRS512.Alg():

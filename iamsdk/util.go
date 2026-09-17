@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"maps"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -50,9 +51,7 @@ const RoutePrefix = "/v1/iam"
 // exactly what it passed in and may reuse it for the next page.
 func page(owner string, p int, pageSize int, queryMap map[string]string) map[string]string {
 	q := make(map[string]string, len(queryMap)+3)
-	for k, v := range queryMap {
-		q[k] = v
-	}
+	maps.Copy(q, queryMap)
 	if q["owner"] == "" {
 		q["owner"] = owner
 	}
